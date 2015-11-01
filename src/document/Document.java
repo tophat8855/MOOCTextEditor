@@ -50,10 +50,20 @@ public abstract class Document {
 	// next week when we implement the EfficientDocument class.
 	protected int countSyllables(String word)
 	{
-		// TODO: Implement this method so that you can call it from the
-	    // getNumSyllables method in BasicDocument (module 1) and
-	    // EfficientDocument (module 2).
-	    return 0;
+		Pattern wordSplitter = Pattern.compile("[aeiouyAEIOUY]+");
+		Matcher m = wordSplitter.matcher(word);
+
+		Integer vowelGroupCount = 0;
+
+		while (m.find()) {
+			vowelGroupCount++;
+		}
+
+		if(word.endsWith("e") && vowelGroupCount > 1){
+			vowelGroupCount -= 1;
+		}
+
+	    return vowelGroupCount;
 	}
 	
 	/** A method for testing

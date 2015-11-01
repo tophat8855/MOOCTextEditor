@@ -65,18 +65,7 @@ public class BasicDocument extends Document
 
 		List<String> words = getTokens("[a-zA-Z]+");
 		for ( String word : words) {
-
-			BasicDocument wordDoc = new BasicDocument(word);
-
-			List<String> vowelGroups = wordDoc.getTokens("[aeiouyAEIOUY]+");
-
-			Integer vowelGroupCount = vowelGroups.size();
-
-			if(word.endsWith("e") && vowelGroupCount > 1){
-				vowelGroupCount -= 1;
-			}
-
-			count += vowelGroupCount;
+			count += countSyllables(word);
 		}
 		return count;
 	}
