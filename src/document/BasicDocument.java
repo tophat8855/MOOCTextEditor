@@ -1,5 +1,8 @@
 package document;
 
+import com.sun.org.apache.xerces.internal.xs.StringList;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /** 
@@ -28,14 +31,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method.  See the Module 1 support videos 
-	    // if you need help.
-	    return 0;
+		List<String> tokens = getTokens("[a-zA-Z]+");
+		return tokens.size();
 	}
 	
 	/**
 	 * Get the number of sentences in the document.
-	 * Sentences are defined as contiguous strings of characters ending in an 
+	 * Sentences are defined as contiguous strings of characters ending in an
 	 * end of sentence punctuation (. ! or ?) or the last contiguous set of 
 	 * characters in the document, even if they don't end with a punctuation mark.
 	 * 
@@ -44,13 +46,12 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		List<String> tokens = getTokens("[^.!?]+");
+        return tokens.size();
 	}
 	
 	/**
-	 * Get the number of sentences in the document.
+	 * Get the number of syllables in the document.
 	 * Words are defined as above.  Syllables are defined as:
 	 * a contiguous sequence of vowels, except for an "e" at the 
 	 * end of a word if the word has another set of contiguous vowels, 
@@ -60,9 +61,24 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		Integer count = 0;
+
+		List<String> words = getTokens("[a-zA-Z]+");
+		for ( String word : words) {
+
+			BasicDocument wordDoc = new BasicDocument(word);
+
+			List<String> vowelGroups = wordDoc.getTokens("[aeiouyAEIOUY]+");
+
+			Integer vowelGroupCount = vowelGroups.size();
+
+			if(word.endsWith("e") && vowelGroupCount > 1){
+				vowelGroupCount -= 1;
+			}
+
+			count += vowelGroupCount;
+		}
+		return count;
 	}
 	
 	
